@@ -35,7 +35,7 @@ tuple<int, int> fileopen(void){
 	
 	for (j=0; j<=s.length()+1; ++j){
 		a[0][j] = '#';
-		a[i][j] = '#';
+		a[i-1][j] = '#';
 	}
 	cin.clear();
 	return make_tuple(i, j);
@@ -51,12 +51,12 @@ int DFS(int srow, int scol, int row, int col, int counter, tuple_list &list)
 		if (max_count == counter){
 			list.clear();
 			list.push_back( tuple<int, int>(srow, scol));
+			//cout << srow << " " << scol << endl;
 			return max_count;
 		}
 		return 0;
 	}
  	counter++;
-
     for (int i = srow-1; i <= srow+1; i++){
     	for (int j=scol-1; j <= scol+1; j++){
 
@@ -75,22 +75,22 @@ int main(){
 	auto t = fileopen();
 	int i = get<0>(t), j = get<1>(t);
 
-	for (int x = 1; x < i; x++) {
-		for(int y = 1; y< j; y++){
+	for (int x = 1; x < i-1; x++) {
+		for(int y = 1; y< j-1; y++){
 			if(a[x][y] == 46){
-				list.clear();
 				DFS(x, y, i, j, 0, list);
 				fileopen();
 			}
 		}
 	}
 
-	cout << list.size() << endl;
-    for (int i = 0; i < list.size(); i++)
-     	a[get<0>(list[i])][get<1>(list[i])] = '0'+list.size()-i-1;
+	cout << max_count+1 << endl;
 
-    for (int x = 0; x <= i; x++) {
-		for(int y = 0; y<= j; y++){
+    for (int i = 0; i <= max_count; i++)
+     	a[get<0>(list[i])][get<1>(list[i])] = '0'+max_count-i;
+
+    for (int x = 1; x < i-1; x++) {
+		for(int y = 1; y< j-1; y++){
 			cout << a[x][y];
 		}
 		cout << endl;
